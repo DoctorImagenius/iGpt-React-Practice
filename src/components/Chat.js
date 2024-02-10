@@ -147,7 +147,7 @@ export default function ChatComponent() {
 
                 {comp}
                 <div className={wait ? "load" : "noLoad"}>
-                    <img src={loading} />
+                    <img src={loading} alt="loading..." />
                 </div>
             </div>
             <div className="inpt">
