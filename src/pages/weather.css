@@ -1,0 +1,91 @@
+.main1 {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 1px #6d6d6d;
+    max-width: 50%;
+    align-items: center;
+    margin: 100px auto;
+}
+
+.inp {
+    width: 80%;
+    display: flex;
+    gap: 10px;
+    margin: 20px;
+}
+
+.inp input {
+    width: 80%;
+    font-size: 30px;
+    border: none;
+    border-bottom: 1px solid gray;
+    outline: none;
+}
+
+.inp button {
+    color: white;
+    background-color: rgb(0, 0, 255);
+    border: none;
+    border-radius: 5px;
+    max-width: 100px;
+    font-size: 20px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.inp button:hover {
+    background-color: rgb(0, 0, 199);
+}
+
+.display {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+    text-align: center;
+}
+
+.country {
+    font-size: 50px;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    color: rgb(255, 0, 0);
+}
+
+.region {
+    font-size: 50px;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    color: blue;
+}
+.calcius {
+    font-size: 50px;
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+    color: #00ff0d;
+    text-shadow: 1px 1px 5px #000000;
+}
+
+@media screen and (width<=800px) {
+    .main1 {
+        max-width: 80%;
+    }
+}
+
+@media screen and (width<=460px) {
+    .country {
+        font-size: 30px;
+    }
+    .region {
+        font-size: 30px;
+    }
+    .inp input {
+        font-size: 20px;
+    }
+    .inp button {
+        max-width: 100px;
+        font-size: 15px;
+        padding: 5px;
+        width: 40%;
+    }
+}

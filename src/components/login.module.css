@@ -1,0 +1,110 @@
+.main {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    margin: 30px;
+    justify-content: space-around;
+}
+
+.body {
+    width: 40%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 2px #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 10px;
+}
+
+.body label {
+    text-align: center;
+    border-bottom: 1px solid gray;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 700;
+    font-size: 50px;
+    color: blue;
+}
+
+.body input {
+    margin: 20px 20px;
+    font-size: 20px;
+    height: 30px;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    outline: none;
+}
+
+.body button {
+    color: white;
+    background-color: rgb(0, 0, 255);
+    border: none;
+    border-radius: 5px;
+    max-width: 100px;
+    padding: 10px 5px;
+    margin: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.body button:hover {
+    background-color: rgb(0, 0, 199);
+}
+
+.dataBody {
+    width: 40%;
+    max-height: 400px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 2px #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+    margin: 10px;
+}
+
+.dataBody label {
+    text-align: center;
+    border-bottom: 1px solid gray;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 700;
+    font-size: 50px;
+    color: blue;
+}
+
+.InBody {
+    width: 95%;
+    overflow-y: scroll;
+    padding: 10px;
+}
+
+@media screen and (width<=800px) {
+    .main {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    .body {
+        width: 80%;
+    }
+
+    .dataBody {
+        width: 80%;
+    }
+}
+
+@media screen and (width<=460px) {
+    .body {
+        width: 100%;
+    }
+
+    .dataBody {
+        width: 100%;
+    }
+}

@@ -1,0 +1,90 @@
+.main {
+    width: 40%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 2px #ccc;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 5px;
+}
+
+.lab {
+    text-align: center;
+    border-bottom: 1px solid gray;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 700;
+    font-size: 50px;
+    color: blue;
+}
+
+.copy {
+    display: flex;
+    align-self: center;
+}
+
+.cbtn {
+    padding: 10px 18px !important;
+    margin: 0 !important;
+    margin-left: 10px !important;
+    border-radius: 20px !important;
+    box-shadow: 5px 5px 15px #858585 !important;
+}
+
+.screen {
+    width: 80%;
+    font-size: 35px;
+    border: none;
+    outline: none;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 10px 10px 17px #cbced1, -10px -10px 17px #ffffff;
+    background-color: rgb(235, 235, 235);
+    color: black;
+    padding: 10px;
+}
+
+.num {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.num label {
+    font-size: 20px;
+}
+
+.num input {
+    max-width: 60px;
+    font-size: 20px;
+}
+
+.main button {
+    font-size: 15px;
+    color: white;
+    background-color: rgb(0, 0, 255);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 5px;
+    margin: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.main button:hover {
+    background-color: rgb(0, 0, 199);
+}
+
+@media screen and (width<=800px) {
+    .main {
+        width: 70%;
+    }
+}
+
+@media screen and (width<=460px) {
+    .main {
+        width: 90%;
+    }
+}
