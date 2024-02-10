@@ -28,11 +28,13 @@ export default function Login() {
                 if (newData[i].update) {
                     newData[i] = obj;
                     for (let j = 0; j < newData.length; j++) {
-                        if (i == j) {
+                        if (i === j) {
                             continue;
                         }
-                        if (email == newData[j].email) {
-                            NotificationManager.warning(email);
+                        if (email === newData[j].email) {
+                            NotificationManager.warning(
+                                "User Already Exist..."
+                            );
                             return;
                         }
                     }
@@ -52,7 +54,7 @@ export default function Login() {
                 phone: phone,
             };
             for (var i = 0; i < Data.length; i++) {
-                if (email == Data[i].email) {
+                if (email === Data[i].email) {
                     NotificationManager.warning("User Already Exist...");
                     return;
                 }
