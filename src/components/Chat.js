@@ -21,7 +21,6 @@ export default function ChatComponent() {
     const [wait, setWait] = useState(false);
     const containerRef = useRef(null);
     useEffect(() => {
-        alert(apiKey);
         const container = containerRef.current;
         if (container) {
             container.scrollTop = container.scrollHeight;
