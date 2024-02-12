@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./display.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faComputer, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+    faComputer,
+    faUser,
+    faVolumeHigh,
+    faVolumeOff,
+} from "@fortawesome/free-solid-svg-icons";
+import {} from "@fortawesome/free-brands-svg-icons";
 export default function Display({
     question,
     response,
@@ -13,7 +19,23 @@ export default function Display({
     let u = "You";
     const system = <FontAwesomeIcon icon={faComputer} />;
     let s = "Imagenius";
+    const speak = <FontAwesomeIcon icon={faVolumeHigh} />;
+    const speako = <FontAwesomeIcon icon={faVolumeOff} />;
 
+    const utterance = new SpeechSynthesisUtterance(response);
+    const voices = window.speechSynthesis.getVoices();
+    utterance.voice = voices[1];
+    utterance.rate = 0.8;
+    let [vup, setVup] = useState(false);
+
+    if (vup) {
+        speechSynthesis.speak(utterance);
+        utterance.onend = () => {
+            setVup(false);
+        };
+    } else {
+        speechSynthesis.cancel();
+    }
     return (
         <div className="dmain">
             <div>
@@ -22,6 +44,7 @@ export default function Display({
                     {u}
                 </span>
             </div>
+
             <div
                 className="ques"
                 onClick={() => {
@@ -37,7 +60,17 @@ export default function Display({
                     {s}
                 </span>
             </div>
-            <div className="ans">{response}</div>
+            <div className="ans">
+                {response}
+                <div
+                    className="speak"
+                    onClick={() => {
+                        setVup(!vup);
+                    }}
+                >
+                    {vup ? speak : speako}
+                </div>
+            </div>
         </div>
     );
 }

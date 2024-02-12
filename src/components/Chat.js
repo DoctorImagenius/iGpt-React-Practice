@@ -10,6 +10,7 @@ import Display from "./Display";
 import logo from "./logo.png";
 import loading from "./loading.gif";
 const apiKey = process.env.REACT_APP_gpt_api;
+//const apiKey = "no";
 
 export default function ChatComponent() {
     const apiUrl = "https://api.openai.com/v1/chat/completions";
