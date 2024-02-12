@@ -11,7 +11,7 @@ import logo from "./logo.png";
 import loading from "./loading.gif";
 
 export default function ChatComponent() {
-    const apiKey = "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";
+    const apiKey = "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";
     const apiUrl = "https://api.openai.com/v1/chat/completions";
     let [dummy, setDummy] = useState(["Please wait..."]);
     let [data, setData] = useState([]);
