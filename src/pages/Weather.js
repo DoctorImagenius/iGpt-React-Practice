@@ -5,6 +5,7 @@ import {
     NotificationContainer,
     NotificationManager,
 } from "react-notifications";
+const w_api_key = process.env.REACT_APP_weather_api;
 
 export default function Weather() {
     let [show, setShow] = useState(false);
@@ -20,7 +21,7 @@ export default function Weather() {
         setShow(false);
         setWait("Wait...");
         fetch(
-            `https://api.weatherapi.com/v1/current.json?key=9953b3170a9849c6abe113335240702&q=${city}`
+            `https://api.weatherapi.com/v1/current.json?key=${w_api_key}&q=${city}`
         )
             .then((res) => res.json())
             .then((data) => {
