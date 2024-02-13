@@ -158,6 +158,11 @@ export default function ChatComponent() {
                     placeholder="Ask me anything..."
                     value={transcript || inputText}
                     onChange={(e) => setInputText(e.target.value)}
+                    onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                            handleChatRequest();
+                        }
+                    }}
                 ></input>
                 <div className="mainInp">
                     <button className="enter" onClick={handleChatRequest}>

@@ -59,7 +59,7 @@ export default function Display({
     const utterance = new SpeechSynthesisUtterance(response);
     const voices = window.speechSynthesis.getVoices();
     utterance.voice = voices[1];
-    utterance.rate = 0.8;
+    utterance.rate = 1;
     let [vup, setVup] = useState(false);
 
     if (vup) {

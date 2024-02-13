@@ -99,4 +99,7 @@
     .ans {
         line-height: 1.5;
     }
+    .head {
+        top: 5px;
+    }
 }
