@@ -60,45 +60,39 @@ export default function ChatComponent() {
 
     // ✅ Updated handleChatRequest using window.apifree
     const handleChatRequest = async () => {
-    setWait(true);
-    resetTranscript();
-    let ques = inputText;
-    setInputText("");
+        setWait(true);
+        resetTranscript();
+        let ques = inputText;
+        setInputText("");
 
-    try {
-        if (window.apifree) {
-            // Build full conversation: system + previous + new question
-            const messages = [
-                systemMessage,
-                ...data.map((m) => ({ role: "user", content: m.q })),
-                ...data.map((m) => ({ role: "assistant", content: m.r })),
-                { role: "user", content: ques }
-            ];
-
-            const response = await window.apifree.chat(messages);
-
+        try {
+            if (window.apifree) {
+                const response = await window.apifree.chat(ques);
+                let obj = {
+                    q: ques,
+                    r: response || "No response",
+                };
+                let newData = [...data, obj];
+                setData(newData);
+            } else {
+                let obj = {
+                    q: ques,
+                    r: "AI service not loaded yet. Please refresh.",
+                };
+                let newData = [...data, obj];
+                setData(newData);
+            }
+        } catch (error) {
             let obj = {
                 q: ques,
-                r: response?.content || response || "No response",
+                r: "Something went wrong, Please try after one minute...",
             };
-
-            setData([...data, obj]);
-        } else {
-            setData([
-                ...data,
-                { q: ques, r: "AI service not loaded yet. Please refresh." }
-            ]);
+            let newData = [...data, obj];
+            setData(newData);
         }
-    } catch (error) {
-        setData([
-            ...data,
-            { q: ques, r: "Something went wrong, Please try after one minute..." }
-        ]);
-    }
 
-    setWait(false);
-};
-
+        setWait(false);
+    };
 
     let comp = data.map((v, i) => {
         return (
