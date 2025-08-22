@@ -1,72 +1,51 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./chat.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faMicrophone } from "@fortawesome/free-solid-svg-icons";
-import { useState, useEffect, useRef } from "react";
 import SpeechRecognition, {
     useSpeechRecognition,
 } from "react-speech-recognition";
 import Display from "./Display";
 import logo from "./logo.png";
 import loading from "./loading.gif";
-const apiKey = process.env.REACT_APP_gpt_api;
-//const apiKey = "no";
 
 export default function ChatComponent() {
-    const apiUrl = "https://api.openai.com/v1/chat/completions";
-
     let [dummy, setDummy] = useState(["Please wait..."]);
     let [data, setData] = useState([]);
     const [inputText, setInputText] = useState("");
     const [mic, setMic] = useState(false);
     const [wait, setWait] = useState(false);
     const containerRef = useRef(null);
+
+    // ✅ Dynamically load apifree script once
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "https://apifreellm.com/apifree.min.js";
+        script.async = true;
+        script.onload = () => console.log("✅ apifree loaded");
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
+
     useEffect(() => {
         const container = containerRef.current;
         if (container) {
             container.scrollTop = container.scrollHeight;
         }
     }, [wait]);
-    useEffect(() => {
-        const requestOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${apiKey}`,
-            },
-            body: JSON.stringify({
-                model: "gpt-3.5-turbo", // Specify the model version
-                messages: [
-                    {
-                        role: "user",
-                        content:
-                            "write some questions about technology, question;s word length should be 5 max and 5 questions",
-                    },
-                ],
-            }),
-        };
 
-        fetch(apiUrl, requestOptions)
-            .then((response) => response.json())
-            .then((result) => {
-                // Process the result here
-                const responseData =
-                    result.choices[0]?.message?.content || "No response";
-                const array = responseData.split("\n").filter(Boolean);
-                let trimmedArray = array.map((element) => element.trim());
-                trimmedArray = trimmedArray.map((element) =>
-                    element.replace(/\d|\./g, "")
-                );
-                setDummy(trimmedArray);
-            })
-            .catch((error) => {
-                setDummy([
-                    "Who are you!",
-                    "Give me Ideas",
-                    "Tell me about yourself",
-                    "What is artificial intelligence?",
-                ]);
-            });
+    // ✅ Dummy starter questions (kept from your old code, but simplified since no GPT now)
+    useEffect(() => {
+        setDummy([
+            "Who are you!",
+            "Give me Ideas",
+            "Tell me about yourself",
+            "What is AI?",
+            "Tell me a joke",
+        ]);
     }, []);
 
     const { transcript, browserSupportsSpeechRecognition, resetTranscript } =
@@ -75,39 +54,47 @@ export default function ChatComponent() {
         alert("Your browser doesn't support SpeechRecognition...");
         return null;
     }
+
     const iconEnter = <FontAwesomeIcon icon={faArrowRight} />;
     const iconMic = <FontAwesomeIcon icon={faMicrophone} />;
 
+    // ✅ Updated handleChatRequest using window.apifree
     const handleChatRequest = async () => {
-    setWait(true);
-    resetTranscript();
-    let ques = inputText;
-    setInputText("");
+        setWait(true);
+        resetTranscript();
+        let ques = inputText;
+        setInputText("");
 
-    try {
-        // Call the free API
-        const response = await apifree.chat(ques);
+        try {
+            if (window.apifree) {
+                const response = await window.apifree.chat(ques);
+                let obj = {
+                    q: ques,
+                    r: response || "No response",
+                };
+                let newData = [...data, obj];
+                setData(newData);
+            } else {
+                let obj = {
+                    q: ques,
+                    r: "AI service not loaded yet. Please refresh.",
+                };
+                let newData = [...data, obj];
+                setData(newData);
+            }
+        } catch (error) {
+            let obj = {
+                q: ques,
+                r: "Something went wrong, Please try after one minute...",
+            };
+            let newData = [...data, obj];
+            setData(newData);
+        }
 
-        let obj = {
-            q: ques,
-            r: response || "No response",
-        };
+        setWait(false);
+    };
 
-        let newData = [...data, obj];
-        setData(newData);
-    } catch (error) {
-        let obj = {
-            q: ques,
-            r: "Something went wrong, Please try after one minute...",
-        };
-        let newData = [...data, obj];
-        setData(newData);
-    }
-
-    setWait(false);
-};
-    let comp;
-    comp = data.map((v, i) => {
+    let comp = data.map((v, i) => {
         return (
             <Display
                 question={v.q}
@@ -116,11 +103,11 @@ export default function ChatComponent() {
                 id={i}
                 data={data}
                 setInputText={setInputText}
-            ></Display>
+            />
         );
     });
-    let dmy;
-    dmy = dummy.map((v, i) => {
+
+    let dmy = dummy.map((v, i) => {
         return (
             <Dmm
                 value={v}
@@ -128,9 +115,10 @@ export default function ChatComponent() {
                 id={i}
                 setInputText={setInputText}
                 dummy={dummy}
-            ></Dmm>
+            />
         );
     });
+
     return (
         <div className="mainc">
             <div ref={containerRef} className="content">
@@ -157,7 +145,7 @@ export default function ChatComponent() {
                             handleChatRequest();
                         }
                     }}
-                ></input>
+                />
                 <div className="mainInp">
                     <button className="enter" onClick={handleChatRequest}>
                         {iconEnter}
