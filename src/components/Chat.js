@@ -79,39 +79,33 @@ export default function ChatComponent() {
     const iconMic = <FontAwesomeIcon icon={faMicrophone} />;
 
     const handleChatRequest = async () => {
-        setWait(true);
-        resetTranscript();
-        let ques = inputText;
-        setInputText("");
-        try {
-            const response = await fetch(apiUrl, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${apiKey}`,
-                },
-                body: JSON.stringify({
-                    model: "gpt-3.5-turbo", // Specify the model version
-                    messages: [{ role: "user", content: ques }],
-                }),
-            });
-            const result = await response.json();
-            let obj = {
-                q: ques,
-                r: result.choices[0]?.message?.content || "No response",
-            };
-            let newData = [...data, obj];
-            setData(newData);
-        } catch (error) {
-            let obj = {
-                q: ques,
-                r: "Something went wrong, Please try after one minute...",
-            };
-            let newData = [...data, obj];
-            setData(newData);
-        }
-        setWait(false);
-    };
+    setWait(true);
+    resetTranscript();
+    let ques = inputText;
+    setInputText("");
+
+    try {
+        // Call the free API
+        const response = await apifree.chat(ques);
+
+        let obj = {
+            q: ques,
+            r: response || "No response",
+        };
+
+        let newData = [...data, obj];
+        setData(newData);
+    } catch (error) {
+        let obj = {
+            q: ques,
+            r: "Something went wrong, Please try after one minute...",
+        };
+        let newData = [...data, obj];
+        setData(newData);
+    }
+
+    setWait(false);
+};
     let comp;
     comp = data.map((v, i) => {
         return (
