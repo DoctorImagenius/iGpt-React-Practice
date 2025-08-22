@@ -17,6 +17,13 @@ export default function ChatComponent() {
     const [wait, setWait] = useState(false);
     const containerRef = useRef(null);
 
+    // ✅ Personality (system prompt)
+    const systemPrompt = `
+Your name is iMagenius, created by Haroon.
+You don’t have any memory outside this chat, you are like a newborn learning only with this user.
+Never mention LLaMA or backend models, always behave as iMagenius.
+`;
+
     // ✅ Dynamically load apifree script once
     useEffect(() => {
         const script = document.createElement("script");
@@ -35,9 +42,9 @@ export default function ChatComponent() {
         if (container) {
             container.scrollTop = container.scrollHeight;
         }
-    }, [wait]);
+    }, [wait, data]);
 
-    // ✅ Dummy starter questions (kept from your old code, but simplified since no GPT now)
+    // ✅ Dummy starter questions
     useEffect(() => {
         setDummy([
             "Who are you!",
@@ -58,7 +65,7 @@ export default function ChatComponent() {
     const iconEnter = <FontAwesomeIcon icon={faArrowRight} />;
     const iconMic = <FontAwesomeIcon icon={faMicrophone} />;
 
-    // ✅ Updated handleChatRequest using window.apifree
+    // ✅ Updated handleChatRequest with personality injection
     const handleChatRequest = async () => {
         setWait(true);
         resetTranscript();
@@ -67,28 +74,29 @@ export default function ChatComponent() {
 
         try {
             if (window.apifree) {
-                const response = await window.apifree.chat(ques);
+                // Send both system prompt and user question
+                const response = await window.apifree.chat(
+                    `${systemPrompt}\n\nUser: ${ques}\n\niMagenius:`
+                );
+
                 let obj = {
                     q: ques,
                     r: response || "No response",
                 };
-                let newData = [...data, obj];
-                setData(newData);
+                setData((prev) => [...prev, obj]);
             } else {
                 let obj = {
                     q: ques,
                     r: "AI service not loaded yet. Please refresh.",
                 };
-                let newData = [...data, obj];
-                setData(newData);
+                setData((prev) => [...prev, obj]);
             }
         } catch (error) {
             let obj = {
                 q: ques,
                 r: "Something went wrong, Please try after one minute...",
             };
-            let newData = [...data, obj];
-            setData(newData);
+            setData((prev) => [...prev, obj]);
         }
 
         setWait(false);
